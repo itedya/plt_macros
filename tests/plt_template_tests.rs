@@ -20,6 +20,8 @@ mod tests {
         </html>
         "#;title: &str, body: &str);
 
-        dbg!(some_template("this is a title", "some body").unwrap());
+        let response = some_template("this is a title", "some body").unwrap();
+
+        assert_eq!(response, "\n        <!DOCTYPE html>\n        <html>\n        <head>\n        <meta charset=\"utf-8\" />\n        <meta name=\"viewport\" content=\"width=device-width\" />\n        <title>this is a title</title>\n        </head>\n        <body>\n            some body\n        </body>\n        </html>\n        ")
     }
 }
