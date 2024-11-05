@@ -50,12 +50,6 @@ pub fn plt_template(tokens: TokenStream) -> TokenStream {
         arg.to_token_stream().to_string()
     }).collect::<Vec<String>>();
 
-    dbg!(&args);
-
-    // let template_content = input.template_content.iter().map(|expr| {
-    //     expr.to_token_stream().to_string()
-    // }).collect::<Vec<String>>().join("");
-
     let mut fsa = TextCodeFSA::new();
     let tokenized_template_content = fsa.run(template_content);
 
