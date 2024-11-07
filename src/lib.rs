@@ -8,13 +8,13 @@ use plt::prelude::*;
 
 struct MacroInput {
     template_name: Ident,
-    semicolon_1: Token![;],
+    _semicolon_1: Token![;],
 
     // This one cannot be a vec of expressions, because
     // the whitespaces will be omitted completely.
     template_content: LitStr,
 
-    semicolon_2: Token![;],
+    _semicolon_2: Token![;],
     args: Punctuated<FnArg, Token![,]>,
 }
 
@@ -27,9 +27,9 @@ impl Parse for MacroInput {
 
         Ok(Self {
             template_name: input.parse()?,
-            semicolon_1: input.parse()?,
+            _semicolon_1: input.parse()?,
             template_content: input.parse()?,
-            semicolon_2: input.parse()?,
+            _semicolon_2: input.parse()?,
             args: input.parse_terminated(FnArg::parse, Token![,])?,
         })
     }
@@ -40,8 +40,7 @@ const LINE_ENDING: &'static str = "\r\n";
 #[cfg(not(windows))]
 const LINE_ENDING: &'static str = "\n";
 
-#[proc_macro]
-pub fn plt_template(tokens: TokenStream) -> TokenStream {
+fn generate_template_from_tokens(tokens: TokenStream) -> TokenStream {
     let input = parse_macro_input!(tokens as MacroInput);
 
     let template_name = input.template_name.to_string();
@@ -58,4 +57,15 @@ pub fn plt_template(tokens: TokenStream) -> TokenStream {
     let formatted_code = format_code(&generated_function);
 
     TokenStream::from_str(&formatted_code).unwrap()
+}
+
+#[proc_macro]
+pub fn plt_template(tokens: TokenStream) -> TokenStream {
+    generate_template_from_tokens(tokens)
+}
+
+#[proc_macro]
+pub fn pub_plt_template(tokens: TokenStream) -> TokenStream {
+    let generated_template = generate_template_from_tokens(tokens);
+    TokenStream::from_str(&format!("pub {}", generated_template.to_string())).unwrap()
 }
