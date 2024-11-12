@@ -1,7 +1,7 @@
 use syn::parse::Parse;
 use proc_macro::TokenStream;
 use std::str::FromStr;
-use syn::{braced, parse_macro_input, token, Expr, FnArg, Ident, LitStr, Token};
+use syn::{parse_macro_input, FnArg, Ident, LitStr, Token};
 use syn::__private::ToTokens;
 use syn::punctuated::Punctuated;
 use plt::prelude::*;
