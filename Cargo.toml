@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-plt = { path = "../plt" }
+plt = { git = "https://github.com/itedya/plt" }
 syn = "2.0.87"
 
 [lib]
